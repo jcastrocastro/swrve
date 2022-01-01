@@ -1,15 +1,14 @@
 package com.swrve.project.services;
 
-import java.io.File;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.swrve.project.exceptions.SwrveException;
 import com.swrve.project.model.ProgramOutput;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 /**
  *
@@ -17,7 +16,7 @@ import com.swrve.project.model.ProgramOutput;
  */
 public class CsvCounterJacksonImpl implements CsvCounter {
 
-    private static Logger logger = LoggerFactory.getLogger(CsvCounterJacksonImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CsvCounterJacksonImpl.class);
 
     private static final int NUMBER_COLS = 6;
     private static final String STANDARD_WIDTH = "640";
@@ -55,7 +54,7 @@ public class CsvCounterJacksonImpl implements CsvCounter {
 
             printOutput(programOutput);
         } catch (Exception exc) {
-            logger.error("Error formatting file {}", file!=null ? file.getName() : "");
+            LOGGER.error("Error formatting file {}", file!=null ? file.getName() : "");
             throw new SwrveException("Error formatting file", exc);
         }
 

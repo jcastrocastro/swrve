@@ -1,23 +1,22 @@
 package com.swrve.project.services;
 
+import com.swrve.project.config.data.RemoteFileBean;
+import com.swrve.project.exceptions.SwrveException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.swrve.project.config.data.RemoteFileBean;
-import com.swrve.project.exceptions.SwrveException;
-
 /**
  * @author Raul Castro
  */
 public class GzipDecompressImpl implements GzipDecompress {
 
-    private static Logger logger = LoggerFactory.getLogger(GzipDecompressImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GzipDecompressImpl.class);
 
     private static final int BUFFER_SIZE = 65536;  // Buffer size can be incremented depending on file size
 
@@ -41,7 +40,7 @@ public class GzipDecompressImpl implements GzipDecompress {
                 }
             }
         } catch (IOException ioExc) {
-            logger.error("Error decompressing file");
+            LOGGER.error("Error decompressing file");
             throw new SwrveException("Error decompressing file", ioExc);
         }
     }
