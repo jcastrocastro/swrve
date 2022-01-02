@@ -4,8 +4,12 @@ import com.swrve.project.config.data.RemoteFileBean;
 import com.swrve.project.exceptions.SwrveException;
 import com.swrve.project.services.GetRemoteFile;
 import com.swrve.project.services.GetRemoteFileImpl;
+
+import org.apache.commons.io.FilenameUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * @author Raul Castro
@@ -23,7 +25,6 @@ import java.nio.file.Paths;
 public class GetRemoteGzipFileConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(GetRemoteGzipFileConfig.class);
 
-    private static final String GZIP_TERMINATION = ".gz";
     private static final int CONNECTION_TIMEOUT_MS = 10000;
     private static final int READ_TIMEOUT_MS = 10000;
 
@@ -32,19 +33,17 @@ public class GetRemoteGzipFileConfig {
 
     @Bean
     public RemoteFileBean remoteFileSetting() throws SwrveException {
-        URL urlFile = null;
-        Path pathFromFile = null;
+        URL urlFile;
         try {
-            pathFromFile = Paths.get(urlFromFile);
             urlFile = new URL(urlFromFile);
-        } catch (MalformedURLException | InvalidPathException e) {
+        } catch (MalformedURLException | InvalidPathException  exc) {
             LOGGER.error("Non valid URL. {}", urlFromFile);
-            throw new SwrveException("Non valid URL", e);
+            throw new SwrveException("Non valid URL", exc);
         }
 
-        String  toFile = pathFromFile.getFileName().toString();
-        String decompressFileName = toFile.replaceFirst(GZIP_TERMINATION, "");
-        return new RemoteFileBean(urlFile, toFile, decompressFileName, CONNECTION_TIMEOUT_MS, READ_TIMEOUT_MS);
+        String fileName = FilenameUtils.getName(urlFile.getPath());
+        String decompressFileName = FilenameUtils.getBaseName(urlFile.getPath());
+        return new RemoteFileBean(urlFile, fileName, decompressFileName, CONNECTION_TIMEOUT_MS, READ_TIMEOUT_MS);
     }
 
     @Bean(initMethod = "start")

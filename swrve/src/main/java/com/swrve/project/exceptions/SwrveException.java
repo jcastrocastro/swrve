@@ -11,11 +11,11 @@ public class SwrveException extends Exception {
 
     public SwrveException(String message, Throwable ex) {
         super(message, ex);
-        System.exit(1);
+//        System.exit(1);
     }
 
     public SwrveException(String message) {
         super(message);
-        System.exit(1);
+//        System.exit(1);
     }
 }

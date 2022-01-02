@@ -12,18 +12,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class SpringBootConsoleApplication implements CommandLineRunner {
-    private static Logger logger = LoggerFactory.getLogger(SpringBootConsoleApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootConsoleApplication.class);
 
     @Value("${url.from.file}")
     private String url;
 
     @Override
     public void run(String... args) {
-        logger.debug("Using this url to get the file: {}.", url);
+        LOGGER.debug("Using this url to get the file: {}.", url);
     }
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootConsoleApplication.class, args);
-        logger.debug("APPLICATION FINISHED");
+        LOGGER.debug("APPLICATION FINISHED");
     }
 }

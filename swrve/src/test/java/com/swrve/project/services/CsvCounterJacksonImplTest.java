@@ -1,41 +1,47 @@
 package com.swrve.project.services;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvParser.Feature;
 import com.swrve.project.exceptions.SwrveException;
 import com.swrve.project.model.ProgramOutput;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Raul Castro
  */
 public class CsvCounterJacksonImplTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CsvCounterJacksonImplTest.class);
+
+    private final ClassLoader classloader = Thread.currentThread().getContextClassLoader();
     private CsvMapper mapper;
 
     @Before
     public void setUp() {
         mapper = new CsvMapper();
-        mapper = mapper
-            .enable(Feature.WRAP_AS_ARRAY)
-            .enable(Feature.SKIP_EMPTY_LINES)
-            .enable(Feature.INSERT_NULLS_FOR_MISSING_COLUMNS)
-            .enable(Feature.TRIM_SPACES);
+        mapper = mapper.enable(Feature.WRAP_AS_ARRAY)
+                .enable(Feature.SKIP_EMPTY_LINES)
+                .enable(Feature.INSERT_NULLS_FOR_MISSING_COLUMNS)
+                .enable(Feature.TRIM_SPACES);
         mapper.configure(JsonParser.Feature.ALLOW_YAML_COMMENTS, true);
     }
 
     @Test
     public void printInfoFromCsv_dataWithHeader() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -47,8 +53,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_dataWithHeaderOneColumn() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header_one_column.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header_one_column.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -60,8 +65,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_dataWithHeaderAndComments() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header_and_comments.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header_and_comments.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -73,8 +77,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_dataDifferentLength() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header_different_length.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header_different_length.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -86,8 +89,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_linesWithDoubleQuotas() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header_double_quotas.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header_double_quotas.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -99,8 +101,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_emptyField() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header_empty_field.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header_empty_field.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -112,8 +113,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_emptyLines() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header_empty_lines.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header_empty_lines.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -125,8 +125,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_withWhitespacesInsideField() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header_whitespaces.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header_whitespaces.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -138,8 +137,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_withoutHeader() throws SwrveException {
-        String toFile = getClass().getResource("/data_without_header.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_without_header.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -151,8 +149,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_withSpecialCharacter() throws SwrveException {
-        String toFile = getClass().getResource("/data_with_header_with_special_character.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("data_with_header_with_special_character.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -164,8 +161,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_emptyFileNoHeader() throws SwrveException {
-        String toFile = getClass().getResource("/empty_file_no_header.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("empty_file_no_header.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -177,8 +173,7 @@ public class CsvCounterJacksonImplTest {
 
     @Test
     public void printInfoFromCsv_emptyFileWithHeader() throws SwrveException {
-        String toFile = getClass().getResource("/empty_file_with_header.csv").getFile();
-        File file = new File(toFile);
+        File file = toFile("empty_file_with_header.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
 
@@ -191,7 +186,7 @@ public class CsvCounterJacksonImplTest {
     @Ignore
     @Test(expected = SwrveException.class)
     public void printInfoFromCsv_noExistFileName() throws SwrveException {
-        File file = new File("/no_exist_file");
+        File file = toFile("no_exist_file.csv");
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
     }
@@ -201,5 +196,18 @@ public class CsvCounterJacksonImplTest {
     public void printInfoFromCsv_nullFileName() throws SwrveException {
         CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(null, mapper);
         ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
+    }
+
+    private File toFile(String fileName) {
+        File file = null;
+
+        try {
+            Path path = Paths.get(Objects.requireNonNull(classloader.getResource(fileName)).toURI());
+            file = path.toFile();
+        } catch (URISyntaxException e) {
+            LOGGER.error("Error checking file name {}", fileName);
+        }
+
+        return file;
     }
 }

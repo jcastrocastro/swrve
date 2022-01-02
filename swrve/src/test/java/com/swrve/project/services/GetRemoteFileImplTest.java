@@ -1,18 +1,19 @@
 package com.swrve.project.services;
 
-import static org.mockito.Mockito.when;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import com.swrve.project.config.data.RemoteFileBean;
+import com.swrve.project.exceptions.SwrveException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.swrve.project.config.data.RemoteFileBean;
-import com.swrve.project.exceptions.SwrveException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
+
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetRemoteFileImplTest {
@@ -24,10 +25,11 @@ public class GetRemoteFileImplTest {
     private GetRemoteFileImpl getRemoteFileImpl;
 
     @Test
-    public void fileExist() throws SwrveException {
-        String toFile = getClass().getResource("/example.pp.gz").getFile();
-        Path pathToFile = Paths.get(toFile);
-        when(remoteFileBean.getToFile()).thenReturn(pathToFile.toAbsolutePath().toString());
+    public void fileExist() throws SwrveException, URISyntaxException {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        Path pathToFile = Paths.get(Objects.requireNonNull(classloader.getResource("example.pp.gz")).toURI());
+        when(remoteFileBean.getToFile()).thenReturn(pathToFile.toString());
+
         getRemoteFileImpl.start();
     }
 }

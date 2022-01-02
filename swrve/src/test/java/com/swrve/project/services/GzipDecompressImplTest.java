@@ -1,18 +1,19 @@
 package com.swrve.project.services;
 
-import static org.mockito.Mockito.when;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import com.swrve.project.config.data.RemoteFileBean;
+import com.swrve.project.exceptions.SwrveException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.swrve.project.config.data.RemoteFileBean;
-import com.swrve.project.exceptions.SwrveException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
+
+import static org.mockito.Mockito.when;
 
 /**
  * @author Raul Castro
@@ -27,10 +28,10 @@ public class GzipDecompressImplTest {
     private GzipDecompressImpl gzipDecompressImpl;
 
     @Test
-    public void start() throws SwrveException {
-        String toFile = getClass().getResource("/example.pp.gz").getFile();
-        when(remoteFileBean.getToFile()).thenReturn(toFile);
-        Path pathToFile = Paths.get(toFile);
+    public void start() throws SwrveException, URISyntaxException {
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        Path pathToFile = Paths.get(Objects.requireNonNull(classloader.getResource("example.pp.gz")).toURI());
+        when(remoteFileBean.getToFile()).thenReturn(pathToFile.toString());
         String outputDirectory = pathToFile.getParent().toString();
         when(remoteFileBean.getDecompressFileName()).thenReturn(outputDirectory + "/example.pp");
 

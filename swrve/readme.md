@@ -11,10 +11,10 @@ Requirements:
 0. Decompress the file in a suitabled directory.
 
 1. In a terminal/console execute next commands:
->> cd swrve
+> cd swrve
 
 2. Create the jar:
->> mvn clean install
+> mvn clean install
 
    It will create the ./target directory
 
@@ -22,14 +22,16 @@ Requirements:
 3. Running the application:
 
 3.1.  Running using java jar
->> java -jar ./target/swrve-1.0.jar --url.from.file=<url>
+> java -jar ./target/swrve-1.0.jar --url.from.file=<url>
+
 e.g.
-java -jar ./target/swrve-1.0.jar --url.from.file=https://s3.amazonaws.com/swrve-public/full_stack_programming_test/test_data.csv.gz
+>java -jar ./target/swrve-1.0.jar --url.from.file=https://s3.amazonaws.com/swrve-public/full_stack_programming_test/test_data.csv.gz
 
 3.2. Alternatively to point 3.1, running using spring boot. But the output will be more verbose.
->>  mvn spring-boot:run -Dspring-boot.run.arguments=<url>
+>  mvn spring-boot:run -Dspring-boot.run.arguments=<url>
+
 e.g.
-mvn spring-boot:run -Dspring-boot.run.arguments=--url.from.file=https://s3.amazonaws.com/swrve-public/full_stack_programming_test/test_data.csv.gz
+> mvn spring-boot:run -Dspring-boot.run.arguments=https://s3.amazonaws.com/swrve-public/full_stack_programming_test/test_data.csv.gz
 
 
 --------------------------------------------------------------------------------------------------
