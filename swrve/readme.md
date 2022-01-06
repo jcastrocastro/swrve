@@ -22,13 +22,13 @@ Requirements:
 3. Running the application:
 
 3.1.  Running using java jar
-> java -jar ./target/swrve-1.0.jar --url.from.file=<url>
+> java -jar ./target/swrve-1.0.jar --url.from.file=url
 
 e.g.
 >java -jar ./target/swrve-1.0.jar --url.from.file=https://s3.amazonaws.com/swrve-public/full_stack_programming_test/test_data.csv.gz
 
 3.2. Alternatively to point 3.1, running using spring boot. But the output will be more verbose.
->  mvn spring-boot:run -Dspring-boot.run.arguments=<url>
+>  mvn spring-boot:run -Dspring-boot.run.arguments=url
 
 e.g.
 > mvn spring-boot:run -Dspring-boot.run.arguments=https://s3.amazonaws.com/swrve-public/full_stack_programming_test/test_data.csv.gz

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -202,7 +203,8 @@ public class CsvCounterJacksonImplTest {
         File file = null;
 
         try {
-            Path path = Paths.get(Objects.requireNonNull(classloader.getResource(fileName)).toURI());
+            URL url = Objects.requireNonNull(classloader.getResource(fileName));
+            Path path = Paths.get(url.toURI());
             file = path.toFile();
         } catch (URISyntaxException e) {
             LOGGER.error("Error checking file name {}", fileName);

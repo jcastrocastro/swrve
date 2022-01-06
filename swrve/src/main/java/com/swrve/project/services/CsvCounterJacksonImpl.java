@@ -2,9 +2,11 @@ package com.swrve.project.services;
 
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+
 import com.swrve.project.exceptions.SwrveException;
 import com.swrve.project.model.ProgramOutput;
 import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,7 +83,7 @@ public class CsvCounterJacksonImpl implements CsvCounter {
         long spendValue = 0;
         String spend = row[2];
         if (!StringUtils.isEmpty(spend)) {
-            spendValue = Long.valueOf(spend);
+            spendValue = Long.parseLong(spend);
         }
         programOutput.setTotalSpend(programOutput.getTotalSpend() + spendValue);
 
