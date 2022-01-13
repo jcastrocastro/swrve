@@ -11,6 +11,7 @@ import com.swrve.project.services.GzipDecompress;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.io.File;
 
@@ -18,16 +19,16 @@ import java.io.File;
  * @author Raul Castro
  */
 @Configuration
+@Order(3)
 public class CsvCounterConfig {
 
     @Bean(initMethod = "printInfoFromCsv")
-    public CsvCounter countCsvElements(RemoteFileBean remoteFileBean, GzipDecompress gzipDecompress) {
+    public CsvCounter countCsvElements(RemoteFileBean remoteFileBean) {
         CsvMapper mapper = new CsvMapper();
-        mapper = mapper
-            .enable(Feature.WRAP_AS_ARRAY)
-            .enable(Feature.SKIP_EMPTY_LINES)
-            .enable(Feature.INSERT_NULLS_FOR_MISSING_COLUMNS)
-            .enable(Feature.TRIM_SPACES);
+        mapper = mapper.enable(Feature.WRAP_AS_ARRAY)
+                       .enable(Feature.SKIP_EMPTY_LINES)
+                       .enable(Feature.INSERT_NULLS_FOR_MISSING_COLUMNS)
+                       .enable(Feature.TRIM_SPACES);
         mapper.configure(JsonParser.Feature.ALLOW_YAML_COMMENTS, true);
 
         File decompressFile = new File(remoteFileBean.getDecompressFileName());

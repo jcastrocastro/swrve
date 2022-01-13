@@ -41,17 +41,16 @@ public class ProgramOutput {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(ProgramOutput.class.getSimpleName());
-        builder.append(" {totalCountUsers=");
-        builder.append(totalCountUsers);
-        builder.append(" {numberUsersStandardResolution=");
-        builder.append(numberUsersWithStandardResolution);
-        builder.append(" {totalSpend=");
-        builder.append(totalSpend);
-        builder.append(" {firstUserId=");
-        builder.append(firstUserId);
-        builder.append("}");
-        return builder.toString();
+        String builder = ProgramOutput.class.getSimpleName()
+            + " {totalCountUsers="
+            + totalCountUsers
+            + " {numberUsersStandardResolution="
+            + numberUsersWithStandardResolution
+            + " {totalSpend="
+            + totalSpend
+            + " {firstUserId="
+            + firstUserId
+            + "}";
+        return builder;
     }
 }

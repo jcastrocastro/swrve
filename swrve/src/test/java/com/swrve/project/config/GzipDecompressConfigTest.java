@@ -20,13 +20,10 @@ public class GzipDecompressConfigTest {
     @Mock
     private RemoteFileBean remoteFileBean;
 
-    @Mock
-    private GetRemoteFile getRemoteFile;
-
     @Test
     public void decompress() {
         GzipDecompressConfig gzipDecompressConfig = new GzipDecompressConfig();
-        GzipDecompress gzipDecompress = gzipDecompressConfig.decompress(remoteFileBean, getRemoteFile);
+        GzipDecompress gzipDecompress = gzipDecompressConfig.decompress(remoteFileBean);
         notNull(gzipDecompress, "Value is null");
     }
 

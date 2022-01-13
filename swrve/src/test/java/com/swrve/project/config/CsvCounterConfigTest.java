@@ -29,7 +29,7 @@ public class CsvCounterConfigTest {
         CsvCounterConfig csvCounterConfig = new CsvCounterConfig();
         RemoteFileBean remoteFileBean = new RemoteFileBean(new URL(FROM_FILE), "testTofile", "decompressFile",
             10, 10);
-        CsvCounter csvCounter = csvCounterConfig.countCsvElements(remoteFileBean, gzipDecompress);
+        CsvCounter csvCounter = csvCounterConfig.countCsvElements(remoteFileBean);
         notNull(csvCounter, "Object is not null");
     }
 }
