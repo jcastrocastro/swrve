@@ -2,7 +2,9 @@ package com.swrve.project.services;
 
 import com.swrve.project.config.data.RemoteFileBean;
 import com.swrve.project.exceptions.SwrveException;
+
 import org.apache.commons.io.FileUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +27,8 @@ public class GetRemoteFileImpl implements GetRemoteFile {
         try {
             File toFile = new File(remoteFileBean.getToFile());
             if (!toFile.exists()) {
-                FileUtils.copyURLToFile(remoteFileBean.getFromFile(), toFile, remoteFileBean.getConnectionTimeout(),
-                    remoteFileBean.getReadTimeout());
+                FileUtils.copyURLToFile(remoteFileBean.getFromFile(), toFile,
+                                        remoteFileBean.getConnectionTimeout(), remoteFileBean.getReadTimeout());
             }
         } catch (IOException e) {
             LOGGER.error("Error getting remote file {} to {}", remoteFileBean.getFromFile(), remoteFileBean.getToFile());

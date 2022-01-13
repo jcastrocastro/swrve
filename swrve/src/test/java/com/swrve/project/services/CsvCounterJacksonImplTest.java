@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Raul Castro
@@ -169,7 +170,7 @@ public class CsvCounterJacksonImplTest {
         assertEquals(0, programOutput.getTotalCountUsers());
         assertEquals(0, programOutput.getTotalSpend());
         assertEquals(0, programOutput.getNumberUsersWithStandardResolution());
-        assertEquals(null, programOutput.getFirstUserId());
+        assertNull(programOutput.getFirstUserId());
     }
 
     @Test
@@ -181,22 +182,7 @@ public class CsvCounterJacksonImplTest {
         assertEquals(0, programOutput.getTotalCountUsers());
         assertEquals(0, programOutput.getTotalSpend());
         assertEquals(0, programOutput.getNumberUsersWithStandardResolution());
-        assertEquals(null, programOutput.getFirstUserId());
-    }
-
-    @Ignore
-    @Test(expected = SwrveException.class)
-    public void printInfoFromCsv_noExistFileName() throws SwrveException {
-        File file = toFile("no_exist_file.csv");
-        CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(file, mapper);
-        ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
-    }
-
-    @Ignore
-    @Test(expected = SwrveException.class)
-    public void printInfoFromCsv_nullFileName() throws SwrveException {
-        CsvCounterJacksonImpl csvCounterJacksonImpl = new CsvCounterJacksonImpl(null, mapper);
-        ProgramOutput programOutput = csvCounterJacksonImpl.printInfoFromCsv();
+        assertNull(programOutput.getFirstUserId());
     }
 
     private File toFile(String fileName) {
