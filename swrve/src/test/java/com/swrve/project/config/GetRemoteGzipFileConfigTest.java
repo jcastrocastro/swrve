@@ -3,6 +3,8 @@ package com.swrve.project.config;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.util.Assert.notNull;
 
+import java.net.MalformedURLException;
+
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +44,7 @@ public class GetRemoteGzipFileConfigTest {
     }
 
     @Test
-    public void remoteFileSetting() throws SwrveException {
+    public void remoteFileSetting() throws MalformedURLException {
         RemoteFileBean remoteFileBean = getRemoteGzipFileConfig.remoteFileSetting();
         notNull(remoteFileBean, "Value is null");
         assertEquals("test_data.csv.gz", remoteFileBean.getToFile());

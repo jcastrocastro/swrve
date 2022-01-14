@@ -34,15 +34,8 @@ public class GetRemoteGzipFileConfig {
     private String urlFromFile;
 
     @Bean
-    public RemoteFileBean remoteFileSetting() throws SwrveException {
-        URL urlFile;
-        try {
-            urlFile = new URL(urlFromFile);
-        } catch (MalformedURLException | InvalidPathException  exc) {
-            LOGGER.error("Non valid URL. {}", urlFromFile);
-            throw new SwrveException("Non valid URL", exc);
-        }
-
+    public RemoteFileBean remoteFileSetting() throws MalformedURLException {
+        URL urlFile = new URL(urlFromFile);
         String fileName = FilenameUtils.getName(urlFile.getPath());
         String decompressFileName = FilenameUtils.getBaseName(urlFile.getPath());
         return new RemoteFileBean(urlFile, fileName, decompressFileName, CONNECTION_TIMEOUT_MS, READ_TIMEOUT_MS);
